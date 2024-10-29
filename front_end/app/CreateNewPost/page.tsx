@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useState } from 'react';
 import axios from 'axios';
@@ -11,24 +11,30 @@ const SendMessage = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3001/addPost', { content: message });
-      response
       setStatus('Message sent successfully');
       setMessage(''); // Clear the input
     } catch (error) {
-      setStatus('Failed to send message {error}'); 
+      // Check if the error is an instance of Error
+      if (axios.isAxiosError(error) && error.response) {
+        // If there's a response, use the error message from the response
+        setStatus(`Error: ${error.response.data}`);
+      } else {
+        // Otherwise, use a general error message
+        setStatus('An error occurred while sending the message.');
+      }
     }
   };
 
   return (
     <div className='flex flex-col justify-center items-center'>
-      <h1 className='text-3xl mb-20'>Create a Post </h1>
+      <h1 className='text-3xl mb-20'>Create a Post</h1>
       <form onSubmit={handleSubmit}>
         <textarea
           className='border border-gray-300 p-2 w-96 h-32 text-black'
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type your message here"
-        ></textarea><br></br>
+        ></textarea><br />
         <button type="submit" className='bg-green-600 p-2 pr-4 rounded-md'>Send</button>
       </form>
       {status && <p>{status}</p>}
