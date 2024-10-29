@@ -11,6 +11,7 @@ const SendMessage = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3001/addPost', { content: message });
+      response
       setStatus('Message sent successfully');
       setMessage(''); // Clear the input
     } catch (error) {
