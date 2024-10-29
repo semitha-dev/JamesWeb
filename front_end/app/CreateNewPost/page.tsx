@@ -10,7 +10,7 @@ const SendMessage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/addPost', { content: message });
+      await axios.post('http://localhost:3001/addPost', { content: message });
       setStatus('Message sent successfully');
       setMessage(''); // Clear the input
     } catch (error) {
